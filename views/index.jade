@@ -1,0 +1,126 @@
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    title CuteTypo &mdash; A Chat Web Service
+  body
+    h1 CuteTypo &mdash; A Chat Web Service
+    h2 API Documentation
+    p Two things to remember:
+    ol
+      li
+        | For all calls, you
+        em must
+        | include your API Token in
+        | either a GET or POST variable.
+      li
+        | All calls accept a
+        code callback
+        | parameter for JSONP
+        | requests. (For example, calling
+        code
+          | /name/get?callback=foo&token=
+          var your-token
+        | will return
+        code
+          | foo({name:"
+          var
+            | Your App
+            | Name
+          | "})
+        | .)
+    h3
+      code /name/get
+      | (also:
+      code /name
+      | )
+    p This returns the current name of your App.
+    h4 Example
+    h5 Request
+    pre
+      code
+        | /name/get?callback=foo&token=
+        var your-token
+    h5 Response
+    pre
+      code
+        | foo({name:"
+        var Your App Name
+        | "})
+    h3
+      code /name/set
+    p
+      | This sets the name of your App. Returns true if it was
+      | successfully set, false if otherwise.
+    h4 Parameters
+    ul
+      li
+        code name
+        | Ñ The new name of your app. Max length
+        | of 255 characters.
+    h4 Example
+    h5 Request
+    pre
+      code
+        | /name/set/?
+        strong name=New+App+Name
+        | &callback=foo&token=
+        var your-token
+    h5 Response
+    pre
+      code foo(true)
+    h3
+      code /message/get
+      | (also:
+      code /messages
+      | )
+    p Returns a list of chat messages.
+    h4 Parameters
+    ul
+      li
+        code since
+        | Ñ
+        em Optional
+        | Returns messages
+        | that were sent after this time. Defaults to 1 hour ago. You may
+        | supply any date format parsable by
+        a(href="http://php.net/manual/en/function.strtotime.php") strtotime()
+        | .
+    h4 Example
+    h5 Request
+    pre
+      code
+        | /message/get?
+        strong since=-10days
+        | &callback=foo&token=
+        var your-token
+    h5 Response
+    pre
+      code foo([{"id":"1","app":"21","username":"0","message":"Testing, Testing, 1 2 3.","timestamp":"2011-08-03 20:31:29"}])
+    h3
+      code /message/send
+    p
+      | Sends a new chat message. Returns true if the send was
+      | successful, false if otherwise.
+    h4 Parameters
+    ul
+      li
+        code message
+        | Ñ String of message to send. Max
+        | length of 980 characters.
+      li
+        code username
+        | Ñ Name of the user who is sending
+        | the message. Max length of 16 characters.
+    h4 Example
+    h5 Request
+    pre
+      code
+        | /mesage/send?
+        strong message=This+is+a+message!
+        | &
+        strong username=peterwooley
+        | &callback=foo&token=
+        var your-token
+    h5 Response
+    pre
+      code foo(true)
